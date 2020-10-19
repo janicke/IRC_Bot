@@ -17,7 +17,7 @@ class IRC:
         #bytes() function that returns bytestream, encoding UTF-8
         #channel is msgtarget and msg is message
         time.sleep(0.5)  #for UX
-        self.irc.send(bytes("PRIVMSG "+channel+" "+msg+"\n", "ASCII"))
+        self.irc.send(bytes("PRIVMSG "+channel+" :"+msg+"\n", "UTF-8")) # " :" allows to send strings with space
 
     def connect(self, server, port, channel, botname):
         #function to connect to server
@@ -32,7 +32,7 @@ class IRC:
     def get_response(self):
         time.sleep(1)
         # Get the response
-        resp = self.irc.recv(2040).decode("UTF-8")
+        resp = self.irc.recv(5000).decode("UTF-8")
         # to prevent unwanted timeout
         if resp.find('PING') != -1:
             self.irc.send(bytes('PONG ' + resp.split()[1] + '\r\n', "UTF-8"))
